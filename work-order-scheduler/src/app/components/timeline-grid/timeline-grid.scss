@@ -1,0 +1,369 @@
+@import url("https://naologic-com-assets.naologic.com/fonts/circular-std/circular-std.css");
+
+$border-color: rgba(230, 235, 240, 1);
+
+$sidebar-width: 280px;
+$row-height: 48px;
+$header-height: 32px;
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: "Circular-Std"; // Required font
+    padding: 0 30px;
+
+    .title {
+        width: 142px;
+        height: 34px;
+        color: rgba(3, 9, 41, 1);
+        font-family: Circular-Std;
+        font-size: 24px;
+        font-weight: 500;
+        font-style: medium;
+        padding-top:15px;
+    }
+}
+
+.schedule-container {
+    display: flex;
+    flex-grow: 1;
+    font-family: "Circular-Std"; // Required font
+    background: white;
+    border: 1px solid $border-color;
+
+    .work-centers-sidebar {
+        flex: 0 0 $sidebar-width;
+        border-right: 1px solid $border-color;
+        z-index: 10;
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            padding-left: 31px;
+            font-weight: 500;
+            color: #6b778c;
+            border-bottom: 1px solid $border-color;
+            font-size: 14px;
+            line-height: 16px;
+            height: $header-height;
+            color: rgba(104, 113, 150, 1);
+
+        }
+
+        .sidebar-row {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid $border-color;
+            font-size: 14px;
+            line-height: 16px;
+            font-weight: 500;
+            color: rgba(3, 9, 41, 1);
+            height: $row-height;
+            padding-left: 31px;
+        }
+    }
+
+    .timeline-viewport {
+        flex: 1;
+        overflow-x: auto;
+        position: relative;
+
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            width: max-content;
+        }
+
+        .timeline-header {
+            display: flex;
+            height: $header-height;
+            background: white;
+            z-index: 10;
+                    border-bottom: 1px solid $border-color;
+
+            .header-cell {
+                flex-shrink: 0;
+                display: flex;
+                position: relative;
+                justify-content: center;
+                align-items: center;
+                font-size: 12px;
+                color: #6b778c;
+                border-right: 1px solid transparent;
+                width: 104px;
+
+                &.current .currentContainer {
+                    display: block;
+                }
+                .currentContainer {
+                    position: absolute;
+                    display: none;
+                    top: 21px;
+                    height: 22px;
+                    padding: 2px 8px;
+                    margin: 0 auto;
+                    z-index: 10;
+
+                    border-radius: 5px;
+                    background-color: rgba(212, 215, 255, 1);
+
+                    line-height: 18px;
+                    color: rgba(62, 64, 219, 1);
+                    font-size: 12px;
+                    font-weight: 500;
+
+                    white-space: nowrap;
+                }
+
+            }
+        }
+
+        .timeline-grid {
+                flex-grow: 1;
+
+            .grid-background {
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                display: flex;
+                align-content: stretch;
+                z-index: 1;
+
+                .grid-cell {
+                    flex-shrink: 0;
+                    //display: flex;
+                    border-right: 1px solid $border-color;
+                    //   height: 100%;
+
+                    border-top: 1px solid $border-color;
+
+                 
+                }
+            }
+
+
+            .today-indicator {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background: #D4D7FF; // Matches "Current month" blue line in image
+                z-index: 1;
+
+                .indicator-label {
+                    position: absolute;
+                    top: -25px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #e0e0ff;
+                    color: #5d5fef;
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    font-size: 11px;
+                    white-space: nowrap;
+                }
+            }
+
+            .grid-row {
+                position: relative;
+                height: $row-height;
+                display: flex;
+                z-index: 5;
+
+                &:hover {
+                    background-color: #f4f5f7; // Row hover highlight
+                }
+
+                   &:first-child{
+                        height: 60px;
+                    }               
+                    
+                    &:first{
+                        height: 60px;
+                    }
+
+
+            }
+        }
+    }
+}
+
+// Work Order Bar Styling
+.work-order-bar {
+    position: absolute;
+    top: 5px; // Centered in 80px row
+    height: 38px;
+    box-shadow: 0 0 0 1px rgba(222, 224, 255, 1);
+    border-radius: 8px;
+    background-color: rgba(237, 238, 255, 1);
+    padding-left: 8px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: book;
+    font-family: "circular-std";
+
+    cursor: pointer;
+    z-index: 3;
+
+    &.complete {
+
+        box-shadow: 0 0 0 1px rgba(209, 250, 179, 1);
+        background-color: rgba(248, 255, 243, 1);
+
+        .status-pill {
+            background-color: rgba(225, 255, 204, 1);
+            color: rgba(8, 162, 104, 1);
+        }
+
+    }
+
+    &.in-progress {
+        box-shadow: 0 0 0 1px rgba(222, 224, 255, 1);
+        background-color: rgba(237, 238, 255, 1);
+
+        .status-pill {
+            background-color: rgba(214, 216, 255, 1);
+            color: rgba(62, 64, 219, 1);
+        }
+    }
+
+    &.blocked {
+        box-shadow: 0 0 0 1px rgba(255, 245, 207, 1);
+        background-color: rgba(255, 252, 241, 1);
+
+        .status-pill {
+            background-color: #FCEEB5;
+            color: #B13600;
+        }
+    }
+
+    &.open {
+        box-shadow: 0 0 0 1px rgba(222, 224, 255, 1);
+        background: #fbfbfb;
+
+        .status-pill {
+            background-color: rgba(222, 224, 255, 1);
+        }
+    }
+
+    .order-title {
+        font-weight: 500;
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    .status-pill {
+        font-size: 14px;
+        padding: 2px 8px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        margin-right: 4px;
+
+    }
+
+    .actions-btn {
+        font-size: 12px;
+        width: 24px;
+        height: 22px;
+        border-radius: 5px;
+        border: none;
+        background-color: rgba(216, 220, 235, 1);
+        color: #999;
+        cursor: pointer;
+        padding: auto;
+        text-align: center;
+        margin-right: 8px;
+        visibility: hidden;
+    }
+
+    &:hover .actions-btn {
+        visibility: visible;
+    }
+}
+
+
+// Timescale Selector Styling
+.timescale-container {
+    display: flex;
+    position: relative;
+    align-items: center;
+    margin: 24px 0;
+    box-shadow: 1px 2.5px 3px -1.5px rgba(200, 207, 233, 1);
+    border-radius: 5px;
+    width: 146px;
+    height: 25px;
+
+    .timescale-label {
+        width: 75px;
+        height: 25px;
+        padding: 4px 8px;
+
+        border-radius: 5px 0px 0px 5px;
+        background-color: rgba(241, 243, 248, 0.75);
+
+        color: rgba(104, 113, 150, 1);
+        font-size: 13px;
+        line-height: 16px;
+        font-weight: 400;
+        text-align: center;
+
+    }
+
+    .timescale-selector {
+        width: 71px;
+        height: 25px;
+        padding: 4px 8px;
+
+        border-radius: 0px 5px 5px 0px;
+
+        color: rgba(62, 64, 219, 1);
+        font-size: 13px;
+        line-height: 16px;
+        font-weight: 500;
+
+    }
+}
+
+// NG Select Customization
+::ng-deep {
+    .ng-select {
+        position: initial !important;
+    }
+
+    .ng-select .ng-arrow-wrapper .ng-arrow {
+        border-color: #999 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+        border-style: solid;
+        border-width: 5px 5px 2.5px;
+    }
+
+    .ng-select.ng-select-opened>.ng-select-container .ng-arrow {
+
+        transform: rotate(180deg);
+    }
+
+    .ng-select .ng-dropdown-panel {
+        box-shadow: 0 0 0 1px rgba(104, 113, 150, 0.1), 0 2.5px 3px -1.5px rgba(200, 207, 233, 1), 0 4.5px 5px -1px rgba(216, 220, 235, 1);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 1);
+
+        position: absolute;
+        left: 0;
+        top: 30px;
+        width: 200px;
+        padding: 12px 0;
+
+        .ng-option {
+            color: rgba(47, 48, 89, 1);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 18px;
+            padding:5px 0 5px 12px;
+
+        }
+
+    }
+}

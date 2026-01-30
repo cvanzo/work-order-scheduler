@@ -1,0 +1,74 @@
+<div class="main-container">
+    <div class="title">Work Orders</div>
+
+    <div class="timescale-container">
+        <div class="timescale-label">Timescale:</div>
+        <div class="timescale-selector">
+            <ng-select [items]="timescaleOptions" 
+                       bindLabel="label" 
+                       bindValue="id" 
+                       [(ngModel)]="currentTimescale"
+                       (change)="onTimescaleChange($event.id)" 
+                       [clearable]="false" 
+                       [searchable]="false"
+                       class="custom-timescale">
+            </ng-select>
+        </div>
+    </div>
+
+    <div class="schedule-container">
+        <aside class="work-centers-sidebar">
+            <div class="sidebar-header">Work Center</div>
+            @for (wc of workCenters$ | async; track wc.docId) {
+                <div class="sidebar-row">
+                    {{ wc.data.name }}
+                </div>
+            }
+        </aside>
+
+        <section class="timeline-viewport" #timelineViewport>
+            <div class="timeline-container">
+                <header class="timeline-header">
+                    @for (increment of increments; track increment.label) {
+                        <div class="header-cell" 
+                             [style.width.px]="increment.width"
+                             [class.current]="increment.isCurrent">
+                            {{ increment.label }}
+                            @if (increment.isCurrent) {
+                                <div class="currentContainer">Current {{currentTimescale}}</div>
+                            }
+                        </div>
+                    }
+                </header>
+
+                <div class="timeline-grid">
+                    <div class="today-indicator" [style.left.px]="todayOffset"></div>
+
+                    <div class="grid-background">
+                        @for (increment of increments; track $index) {
+                            <div class="grid-cell" [style.width.px]="increment.width"></div>
+                        }
+                    </div>
+
+                    @for (wc of workCenters$ | async; track wc.docId) {
+                        <div class="grid-row">
+                            @for (order of workOrders$ | async; track order.docId) {
+                                @if (order.data.workCenterId === wc.docId) {
+                                    <div class="work-order-bar"
+                                         [ngClass]="order.data.status" 
+                                         [style.left.px]="calculatePosition(order.data.startDate)"
+                                         [style.width.px]="calculateWidth(order.data.startDate, order.data.endDate)">
+
+                                        <span class="order-title">{{ order.data.name }}</span>
+                                        <span class="status-pill">{{ order.data.status }}</span>
+                                        <button class="actions-btn">&hellip;</button>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
